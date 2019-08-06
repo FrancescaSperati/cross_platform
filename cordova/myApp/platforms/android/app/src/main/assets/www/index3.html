@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
+        <script src="js/jquery.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <title>Login</title>
+    </head>
+
+    <body>
+        <div class="app">
+            <h1>Login</h1>
+                
+                <form>
+                    <div class="form-group">
+                        <input class="form-control form-control-sm" type="email" placeholder="Enter email" id="InputEmail">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-control-sm" type="password" placeholder="Password" id="InputPassword">
+                    </div>
+                    <button id="login-app" onclick="loginToDoList()" type="submit" class="btn btn-primary">Login</button>
+                </form>
+        </div>
+
+        <div>
+            <img id="photo" />
+            <p id="msg"></p>
+            <button id="takePicture">SCATTA</button>
+        </div>
+
+
+
+
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script src="/js/bootstrap.js"></script>
+    </body>
+</html>
