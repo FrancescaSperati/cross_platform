@@ -1,87 +1,71 @@
 
-(function ($) {
-    "use strict";
 
+class TodoList{
+    constructor (){
+        this.todos = new Map();
+        this.todoContainer = document.querySelector(".todo-body");
+        this.todoList = document.querySelector(".todo-list");
+        this.todoInput = document.querySelector(".todoInput");
+        this.removeButton = document.querySelector(".removeText");
+        this.bindEvents();
+    }
 
-    /*==================================================================
-    [ Focus input ]*/
-    $('.input100').each(function(){
-        $(this).on('blur', function(){
-            if($(this).val().trim() != "") {
-                $(this).addClass('has-val');
-            }
-            else {
-                $(this).removeClass('has-val');
-            }
-        })    
-    })
-  
-  
-    /*==================================================================
-    [ Validate ]*/
-    var input = $('.validate-input .input100');
-
-    $('.validate-form').on('submit',function(){
-        var check = true;
-
-        for(var i=0; i<input.length; i++) {
-            if(validate(input[i]) == false){
-                showValidate(input[i]);
-                check=false;
+    bindEvents(){
+        this.todoInput.onkeyup = (e) => {
+            if(e.keyCode === 13) {
+                this.addTodo(e.target.value);
+                this.todoInput.value="";
             }
         }
 
-        return check;
-    });
+        this.todoList.onmouseup = (e) => {
+            if(e.target.checked != undefined) {
+                this.markTodo(id, e.target.checked);
+            }
+        }
 
+        this.removeButton.onclick =this.clean.bind(this);
+    }
 
-    $('.validate-form .input100').each(function(){
-        $(this).focus(function(){
-           hideValidate(this);
+    markTodo(id, isChecked){
+        let obj = this.todos.get(id);
+        obj.checked = !isChecked;
+        this.todos.set(id, obj);
+        this.render();
+    }
+
+    addTodo(text = "Blank Task"){
+        let id = Date.now()+"";
+        this.todos.set(id, {
+            id: id,
+            text: text,
+            checked: false
         });
-    });
+        this.render();
+    }
 
-    function validate (input) {
-        if($(input).attr('type') == 'email' || $(input).attr('name') == 'email') {
-            if($(input).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
-                return false;
+    clean(){
+        this.todos.forEach((todo, key) => {
+            if(todo.checked){
+                this.todos.delete(key)
             }
-        }
-        else {
-            if($(input).val().trim() == ''){
-                return false;
-            }
-        }
+        });
+        render();
     }
 
-    function showValidate(input) {
-        var thisAlert = $(input).parent();
-
-        $(thisAlert).addClass('alert-validate');
+    template(item, id){
+        return (`<li class="todo-item ${(item.checked ? "checked" : "")}" data-key="${id}"><input type="checkbox" data-key="${id}" ${(item.checked ? "checked" : "")} />${item.text}</li>`);
     }
 
-    function hideValidate(input) {
-        var thisAlert = $(input).parent();
-
-        $(thisAlert).removeClass('alert-validate');
+    render(){
+        let todoElements = [];
+        this.todos.forEach((item, key) => {
+            todoElements.push(this.template(item,key))
+        });
+        this.todoList.innerHTML = todoElements.join(" ")
     }
-    
-    /*==================================================================
-    [ Show pass ]*/
-    var showPass = 0;
-    $('.btn-show-pass').on('click', function(){
-        if(showPass == 0) {
-            $(this).next('input').attr('type','text');
-            $(this).addClass('active');
-            showPass = 1;
-        }
-        else {
-            $(this).next('input').attr('type','password');
-            $(this).removeClass('active');
-            showPass = 0;
-        }
-        
-    });
+}
 
-
-})(jQuery);
+if(document.readyState === "complete" || document.addEventListener){
+    const List = new TodoList(); 
+}

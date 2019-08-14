@@ -6,31 +6,29 @@
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="initial-scale=1, width=device-width, viewport-fit=cover">
         <script src="js/jquery.js"></script>
-        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" href="css/bootstrap.css">
         <title>Login</title>
     </head>
 
     <body>
-        <div class="app">
-            <h1>Login</h1>
-                
-                <form>
-                    <div class="form-group">
-                        <input class="form-control form-control-sm" type="email" placeholder="Enter email" id="InputEmail">
-                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                    </div>
-                    <div class="form-group">
-                        <input class="form-control form-control-sm" type="password" placeholder="Password" id="InputPassword">
-                    </div>
-                    <button id="login-app" onclick="loginToDoList()" type="submit" class="btn btn-primary">Login</button>
-                </form>
-        </div>
+        <div class="phone">
+            <div class="header">
+                <h2>To Do App</h2>
+                <p>6431 - Francesca Sperati - First Assignment</p>
+                <div class="removeText">&#128465;Delete checked tasks</div>
+            </div>
 
-        <div>
-            <img id="photo" />
-            <p id="msg"></p>
-            <button id="takePicture">SCATTA</button>
+            <div class="todo-body">
+                <ul class="todo-list">
+                    <li class="todo-item">
+                        <input type="checkbox"/> ciao
+                    </li>
+                </ul>
+            </div>
+
+            <input type="text" class="todoInput" placeholder="Enter a task and press enter!">
+
         </div>
 
 
@@ -38,7 +36,7 @@
 
 
         <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
         <script src="/js/bootstrap.js"></script>
     </body>
 </html>
