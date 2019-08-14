@@ -1,16 +1,27 @@
 
 
 class TodoList{
+    //this class represents the todo list
+    
     constructor (){
+        //create a map and fill it with the local storage (the to do list)
         this.todos = new Map();
+        if (localStorage.getItem('myToDoList')) {
+            this.todos = new Map(JSON.parse(localStorage.myToDoList));
+        } 
+        //linking to all items
         this.todoContainer = document.querySelector(".todo-body");
         this.todoList = document.querySelector(".todo-list");
         this.todoInput = document.querySelector(".todoInput");
         this.removeButton = document.querySelector(".removeText");
         this.bindEvents();
+        this.render();
     }
 
     bindEvents(){
+        //events will be:
+        
+        //enter to add a new item
         this.todoInput.onkeyup = (e) => {
             if(e.keyCode === 13) {
                 this.addTodo(e.target.value);
@@ -18,46 +29,57 @@ class TodoList{
             }
         }
 
+        //check the items to mark them as done or to do
         this.todoList.onmouseup = (e) => {
-            if(e.target.checked != undefined) {
+            if(e.target.checked !== undefined) {
+                let id = e.target.getAttribute("data-key");
                 this.markTodo(id, e.target.checked);
             }
         }
-
+        
+        //delete button click to remove the checked items
         this.removeButton.onclick =this.clean.bind(this);
     }
 
     markTodo(id, isChecked){
+        //marking the item as checked and save it into the storage
         let obj = this.todos.get(id);
         obj.checked = !isChecked;
         this.todos.set(id, obj);
+        localStorage.myToDoList = JSON.stringify(Array.from(this.todos.entries()));
         this.render();
     }
 
     addTodo(text = "Blank Task"){
+        //adding a new item to the list and save it into the storage
         let id = Date.now()+"";
         this.todos.set(id, {
             id: id,
             text: text,
             checked: false
         });
+        localStorage.myToDoList = JSON.stringify(Array.from(this.todos.entries()));
         this.render();
     }
 
     clean(){
+        //cleaning both, list and storage
         this.todos.forEach((todo, key) => {
             if(todo.checked){
                 this.todos.delete(key)
             }
         });
-        render();
+        localStorage.myToDoList = JSON.stringify(Array.from(this.todos.entries()));
+        this.render();
     }
 
     template(item, id){
+        //creating a new li tag for the elements to display
         return (`<li class="todo-item ${(item.checked ? "checked" : "")}" data-key="${id}"><input type="checkbox" data-key="${id}" ${(item.checked ? "checked" : "")} />${item.text}</li>`);
     }
 
     render(){
+        //reloading the list view
         let todoElements = [];
         this.todos.forEach((item, key) => {
             todoElements.push(this.template(item,key))
@@ -69,3 +91,36 @@ class TodoList{
 if(document.readyState === "complete" || document.addEventListener){
     const List = new TodoList(); 
 }
+
+var app = {
+    initialize: function() {
+        $('#takePicture').click(app.takePhoto);
+    },
+
+    takePhoto: function() {
+        let options = {
+            quality: 80,
+            destinationType: Camera.DestinationType.FILE_URI,
+            sourceType: Camera.PictureSourceType.CAMERA,
+            mediaType: Camera.MediaType.PICTURE,
+            encodingType: Camera.EncodingType.JPEG,
+            cameraDirecttion: Camera.Direction.BACK,
+            targetWidth: 300,
+            targetHeight: 400
+        };
+        navigator.camera.getPicture(app.ftw, app.wtf, options);
+    },    
+    
+    ftw: function(imgURI){
+        $('#msg').text(imgURI);
+        document.getElementById('photo').src = imgURI;
+    },
+
+    wtf: function(msg) {
+        $('#msg').text(msg);
+    }
+};
+
+app.initialize();
+
+

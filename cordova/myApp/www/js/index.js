@@ -98,7 +98,7 @@
 var app = {
     initialize: function() {
         $('#takePicture').click(app.takePhoto);
-        $('#login-btn').click(app.loginToDoList);
+        $('#loginbutton').click(app.loginToDoList);
         
     },
 
@@ -120,8 +120,16 @@ var app = {
         var userName = document.getElementById("InputEmail").value;
         var userPassword = document.getElementById("InputPassword").value;
     
-        if((userName==="user")&&(userPassword==="pass"))
-            window.open('main.html', '_blank');
+        if((userName==="user")&&(userPassword==="pass")){
+            //window.open('main.html','_blank','location=no');
+            //window.location = "main.html";
+            //window.open("main.html"); 
+            //window.location.assign('main.html');
+            //window.location.href("main.html");
+            //document.getElementById('ciao').value = "eseguito";
+            document.getElementById("loginbutton").href="main.html";
+        }
+            
     },
     
     

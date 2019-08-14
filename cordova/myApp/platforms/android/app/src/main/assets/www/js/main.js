@@ -1,13 +1,27 @@
 
 
 class TodoList{
+    
     constructor (){
         this.todos = new Map();
+
+if (localStorage.getItem('myToDoList')) {
+    this.todos = new Map(JSON.parse(localStorage.myToDoList));
+} 
+        
+
+
+
         this.todoContainer = document.querySelector(".todo-body");
         this.todoList = document.querySelector(".todo-list");
         this.todoInput = document.querySelector(".todoInput");
         this.removeButton = document.querySelector(".removeText");
         this.bindEvents();
+
+
+        this.render();
+
+        
     }
 
     bindEvents(){
@@ -19,11 +33,11 @@ class TodoList{
         }
 
         this.todoList.onmouseup = (e) => {
-            if(e.target.checked != undefined) {
+            if(e.target.checked !== undefined) {
+                let id = e.target.getAttribute("data-key");
                 this.markTodo(id, e.target.checked);
             }
         }
-
         this.removeButton.onclick =this.clean.bind(this);
     }
 
@@ -31,6 +45,11 @@ class TodoList{
         let obj = this.todos.get(id);
         obj.checked = !isChecked;
         this.todos.set(id, obj);
+
+        
+        localStorage.myToDoList = JSON.stringify(Array.from(this.todos.entries()));
+
+
         this.render();
     }
 
@@ -41,6 +60,11 @@ class TodoList{
             text: text,
             checked: false
         });
+
+
+        localStorage.myToDoList = JSON.stringify(Array.from(this.todos.entries()));
+        
+
         this.render();
     }
 
@@ -50,7 +74,12 @@ class TodoList{
                 this.todos.delete(key)
             }
         });
-        render();
+
+
+        localStorage.myToDoList = JSON.stringify(Array.from(this.todos.entries()));
+        
+        
+        this.render();
     }
 
     template(item, id){
